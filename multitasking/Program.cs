@@ -106,7 +106,7 @@ namespace Multitasking
 			WriteLine($"{timer.ElapsedMilliseconds:#,##0}ms elapsed.");
 
 			WriteLine();
-			WriteLine("4) REAL WORLD EMULATION - tasks that spawn tasks:");
+			WriteLine("4) REAL WORLD EMULATION - arrays of tasks that spawn tasks:");
 			WriteLine("   This emulates tasks that immediately chain secondary processes when the first are done.");
 			WriteLine("-----------------------");
 			timer.Restart();
@@ -159,15 +159,15 @@ namespace Multitasking
 
 			// Sample with no parameters in StartNew
 			tasks[0] = Task.Factory.StartNew(CallWebService)
-							.ContinueWith(previousTask => CallStoredProcedure(1, previousTask.Result));
+					.ContinueWith(previousTask => CallStoredProcedure(1, previousTask.Result));
 
 			// Sample with parameters in first StartNew
 			for (int i = 1; i < 5; i++)
 			{
-				int temp = i + 1; // Factory tasks won't pass values until the iterator is done, so we have to create unique
-								  // pointers for each task during the for loop, otherwise they will all be "Task 5".
-				tasks[i] = Task.Factory.StartNew(() => CallWebService(temp))
-				 .ContinueWith(previousTask => CallStoredProcedure(temp, previousTask.Result));
+				int t = i + 1; // Factory tasks won't pass values until the iterator is done, so we have to create unique
+					       // pointers for each task during the for loop, otherwise they will all be "Task 5".
+				tasks[i] = Task.Factory.StartNew(() => CallWebService(t))
+					 .ContinueWith(previousTask => CallStoredProcedure(t, previousTask.Result));
 			}
 
 			Task.WaitAll(tasks);
