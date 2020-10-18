@@ -153,8 +153,8 @@ namespace Multitasking
 		static void ShowTaskProcessChainingDemo()
 		{
 
-			// Create a task that has the final return value of a string
-			// returned from the final method run in the process chain
+			// Create a task array with final return value string returned
+			//     from the final method run in process chain
 			Task<string>[] tasks = new Task<string>[5];
 
 			// Sample with no parameters in StartNew
